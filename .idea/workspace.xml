@@ -7,7 +7,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cecfc212-1086-4c8f-a530-cce2a83f9ac1" name="Changes" comment="News Classifier - Day 2 work" />
+    <list default="true" id="cecfc212-1086-4c8f-a530-cce2a83f9ac1" name="Changes" comment="News Classifier - Day 2 work - TEST COMMIT">
+      <change beforePath="$PROJECT_DIR$/News_Classifier_V2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/News_Classifier_V2.ipynb" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -149,7 +151,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670215925155</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="News Classifier - Day 2 work - TEST COMMIT">
+      <created>1670216112435</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1670216112435</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,7 +181,8 @@
     <MESSAGE value="deleted files" />
     <MESSAGE value="Data Frames First Pre-processing Steps" />
     <MESSAGE value="News Classifier - Day 2 work" />
-    <option name="LAST_COMMIT_MESSAGE" value="News Classifier - Day 2 work" />
+    <MESSAGE value="News Classifier - Day 2 work - TEST COMMIT" />
+    <option name="LAST_COMMIT_MESSAGE" value="News Classifier - Day 2 work - TEST COMMIT" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Data_Mining_Project_Folder$File_Explorer.coverage" NAME="File Explorer Coverage Results" MODIFIED="1670109337397" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
