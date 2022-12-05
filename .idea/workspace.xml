@@ -7,7 +7,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cecfc212-1086-4c8f-a530-cce2a83f9ac1" name="Changes" comment="Data Frames First Pre-processing Steps" />
+    <list default="true" id="cecfc212-1086-4c8f-a530-cce2a83f9ac1" name="Changes" comment="Data Frames First Pre-processing Steps">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.ipynb_checkpoints/News_Classifier_Jupyter-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/News_Classifier_Jupyter.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/News_Classifier_Jupyter.ipynb" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
