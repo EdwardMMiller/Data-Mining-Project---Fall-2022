@@ -179,10 +179,13 @@ def fake_or_real(url, threshold = 0.5):
 ##################            STREAMLIT FUNCTIONS                     ######################
 ############################################################################################
 
-st.title("            NEWS CLASSIFIER APP")
+st.markdown("<h1 style='text-align: center; color: blue; font-size: 50px; '>NEWS CLASSIFIER APP</h1>",
+            unsafe_allow_html=True)
 
-url = st.text_input('Please enter the url for a news article')
+url = st.text_input(
+    'This is an app under development to check the credibility of a news article url - Please enter a news article url below')
 
+  
 def get_article_info(url):
 
     article = Article(url)
@@ -195,27 +198,17 @@ def get_article_info(url):
     # from it
     return title, text
 
-title, text = get_article_info(url)
-# getting title and text
-
-if title == '' or text == '':
-
-    st.header("Could not parse the article. Please try another url")
-
-prob_score = news_classifier(url)
-# getting probability score for news article
-
-
 def make_probability_side_bar(title, text, prob_score):
 
-    st.sidebar.title('Probability of Being True')
+    head = '<h2 style="text-align: center;"font-family:sans-serif; ">Model Probability of Being True</p>'
+    st.sidebar.markdown(head, unsafe_allow_html=True)
     # sidebar title
 
     Prob_Df = pd.DataFrame({'Article': [title],
                             'Probability of Article Being True': [float(prob_score)],})
     # making dataframe in order to use altair bar chart
 
-    st.sidebar.write(alt.Chart(Prob_Df,width = {"step": 200})
+    st.sidebar.write(alt.Chart(Prob_Df,width = {"step": 275})
                      .mark_bar()
                      .configure_axis(title=None)
                      .encode(
@@ -224,7 +217,7 @@ def make_probability_side_bar(title, text, prob_score):
                       scale=alt.Scale(domain=[0.0,1.0]),
                       sort= None),
             color = alt.condition(
-                (alt.datum.y) < 0.5,
+                alt.datum['Probability of Article Being True'] < 0.5,
                 alt.value('red'),
                 alt.value('green'))
                 # color is red if below 0.5
@@ -233,31 +226,62 @@ def make_probability_side_bar(title, text, prob_score):
     # sidebar showing probability on scale of 0 to 1
     st.sidebar.write("Probability Score - ", float(prob_score))
 
+def side_bar_header(title, text, prob_score):
+    if title == '' or text == '':
+        new_title = '<p style="font-family:sans-serif; text-align: center; color:Blue; font-size: 42px;">NO DATA</p>'
+        st.sidebar.markdown(new_title, unsafe_allow_html=True)
+        # accounts for when the function cannot read the article
 
-if title == '' or text == '':
-    new_title = '<p style="font-family:sans-serif; text-align: center; color:Blue; font-size: 42px;">NO DATA</p>'
-    st.sidebar.markdown(new_title, unsafe_allow_html=True)
-    # accounts for when the function cannot read the article
+    elif prob_score >= 0.5:
 
-elif prob_score >= 0.5:
+        new_title = '<p style="font-family:sans-serif; text-align: center; color:Green; font-size: 42px;">PROBABLY TRUE</p>'
+        st.sidebar.markdown(new_title, unsafe_allow_html=True)
+        make_probability_side_bar(title, text, prob_score)
+        # true articles
 
-    new_title = '<p style="font-family:sans-serif; text-align: center; color:Green; font-size: 42px;">PROBABLY TRUE</p>'
-    st.sidebar.markdown(new_title, unsafe_allow_html=True)
-    make_probability_side_bar(title, text, prob_score)
-    # true articles
-
-else:
-    new_title = '<p style="font-family:sans-serif; text-align: center; color:Red; font-size: 42px;">PROBABLY FALSE</p>'
-    st.sidebar.markdown(new_title, unsafe_allow_html=True)
-    make_probability_side_bar(title, text, prob_score)
-    # false articles
+    else:
+        new_title = '<p style="font-family:sans-serif; text-align: center; color:Red; font-size: 42px;">PROBABLY FALSE</p>'
+        st.sidebar.markdown(new_title, unsafe_allow_html=True)
+        make_probability_side_bar(title, text, prob_score)
+        # false articles
     
-# True/False headings for article
+    # True/False headings for article
 
-st.header(title)
-st.subheader(text)
-# showing the article text and title
+def run_app(url):
 
+    if url != '':
+        # app only starts running if url is not blank
+        # prevents errors at start 
+        title, text = get_article_info(url)
+        # getting title and text only
+        prob_score = news_classifier(url)
+        # getting probability score for news article
+
+        if prob_score < 0.5:
+                    # make title and text labels red if article labeled False
+                    st.markdown("<h2 style='text-align: center; color: red; font-size: 50px; '>Title</h1>",
+                                unsafe_allow_html=True)
+                    st.header(title)
+                    st.write("---------------------------------")
+                    st.markdown("<h2 style='text-align: center; color: red; font-size: 50px; '>Text</h1>",
+                                unsafe_allow_html=True)
+        else:
+                    # make title and text labels green if article labeled True
+                    st.markdown("<h2 style='text-align: center; color: green; font-size: 50px; '>Title</h1>",
+                                unsafe_allow_html=True)
+                    st.header(title)
+                    st.write("---------------------------------")
+                    st.markdown("<h2 style='text-align: center; color: green; font-size: 50px; '>Text</h1>",
+                                unsafe_allow_html=True)  
+        st.subheader(text)
+        # show article title and text
+        side_bar_header(title, text, prob_score)
+        # shows the header and whether article Fake or Real
+        # will generate a probability sidebar unless no data
+        # obtained by url
+        
+run_app(url) 
+# run the app
 
 
 
