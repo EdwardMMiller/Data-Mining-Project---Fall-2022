@@ -29,5 +29,7 @@ ENTRYPOINT ["streamlit", "run", "News_Classifier_App.py", "--server.port=8501", 
 Type in Terminal -
 
 docker build -t news_classifier_app . ### IMPORTANT - DON"T LEAVE OFF THE DOT AT THE END OF THIS COMMAND!
+
 docker run -p 8501:8501 news_classifier_app
+
 http://localhost:8501
