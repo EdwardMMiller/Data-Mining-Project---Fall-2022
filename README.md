@@ -10,11 +10,9 @@ when docker is running go to working directory
 
 Type in terminal - 
 
-cd - 
-# change to the directory containing dockerfiles
+cd - // change to the directory containing dockerfiles
 
-touch Dockerfile 
-### IMPORTANT TO DO IT LIKE THIS - use touch command, making a new text file causes errors
+touch Dockerfile // IMPORTANT TO DO IT LIKE THIS - use touch command, making a new text file causes errors
 
 Go to newly created Dockerfile and copy this 
 
