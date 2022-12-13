@@ -1,3 +1,7 @@
+# Data Mining Fall 2022 CUNY Graduate Center 
+
+- See Project details found in attached notebook 
+
 [requirements.txt](https://github.com/EdwardMMiller/Data-Mining-Project---Fall-2022/files/10222333/requirements.txt)
 
 INSTRUCTIONS TO CREATE DOCKERFILE
