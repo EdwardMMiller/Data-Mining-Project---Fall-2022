@@ -2,11 +2,7 @@
 
 INSTRUCTIONS FOR CONTINUING ON WITH STREAMLIT
 
-from here: https://medium.com/mlearning-ai/install-tensorflow-on-mac-m1-m2-with-gpu-support-c404c6cfb580
-
 In Terminal
-
-1. cd /Users/edwardmiller/opt/miniconda3  (started here - needed to be able to download tensorflow
 
 # cd /Users/edwardmiller/Desktop/School\ documents/DATA\ MINING\ FOLDER/Data\ Mining\ Project\ Folder
 # streamlit run News_Classifier_App.py
@@ -61,7 +57,6 @@ def Load_Models():
 
 Best_Model_Txt, Best_Model_Title = Load_Models()
 # Load in the pretrained models
-
 
 def get_model_predictions(model, test_x, probability = False):
 
