@@ -2,10 +2,24 @@
 
 INSTRUCTIONS FOR CONTINUING ON WITH STREAMLIT
 
+from here: https://medium.com/mlearning-ai/install-tensorflow-on-mac-m1-m2-with-gpu-support-c404c6cfb580
+
 In Terminal
 
-# cd /Users/edwardmiller/Desktop/School\ documents/DATA\ MINING\ FOLDER/Data\ Mining\ Project\ Folder
+1. cd /Users/edwardmiller/opt/miniconda3  (started here - needed to be able to download tensorflow
+
+# cd /Users/edwardmiller/Desktop/School\ documents/DATA\ MINING\ FOLDER/Data\ Mining\ Project\ Folder/docker
 # streamlit run News_Classifier_App.py
+
+INSTRUCTION FOR DOCKER IMAGE BUILD AND RUN
+
+In Terminal: 
+
+cd '/Users/edwardmiller/Desktop/School documents/DATA MINING FOLDER/Data Mining Project Folder/docker'
+docker build -t news_classifier_app .
+IMPOORTANT           dot right here ^
+docker run -p 8501:8501 news_classifier_app
+http://localhost:8501
 
 """
 
@@ -57,6 +71,7 @@ def Load_Models():
 
 Best_Model_Txt, Best_Model_Title = Load_Models()
 # Load in the pretrained models
+
 
 def get_model_predictions(model, test_x, probability = False):
 
@@ -143,55 +158,58 @@ def news_classifier(url):
 
   return wt_prob
 
+def fake_or_real(url, threshold = 0.5):
+    """ This is a function that takes in a news url, inputs it into
+    the news_classifier function and based on the probability returned
+    prints a statement saying whether the news article is real or fake 
+    based on how the probability compares to the threshold argument
+
+    Args:
+        url - a url string pointing to a news article
+        threshold - a float between 0 and 1 (default = 0.5)
+    """
+    url_article = Article(url)
+    url_article.download()
+    url_article.parse()
+    url_title = url_article.title
+
+    prob = news_classifier(url)
+    # get the probabilitiy of article being true from the news_classifier
+    if prob < threshold:
+      st.write("Fake News Article - %s" %url_title)
+      # anything below 0.5 declared fake unless 
+      # threshold altered
+    else:
+      st.write("Real News Article - %s" %url_title)
+    # prints Real if prob equal or above threshold
+
+
+
 ############################################################################################
 ##################            STREAMLIT FUNCTIONS                     ######################
 ############################################################################################
 
 st.markdown("<h1 style='text-align: center; color: blue; font-size: 50px; '>NEWS CLASSIFIER APP</h1>",
             unsafe_allow_html=True)
-# shows title bar of the app on the screen
 
 url = st.text_input(
     'This is an app under development to check the credibility of a news article url - Please enter a news article url below')
-# gets url inpur from the user
+
   
 def get_article_info(url):
-    """  This function uses the newspaper libarary functionality
-         to download the content of a website url and return the
-         title and text of that website
-    Args:
-        url - a string containing a url pointing to a news article
-    Returns:
-        title - a string containing the title of the article
-                the url is pointing to
-        text - a string containing the title of the article
-                the url is pointing to               
-  """
 
-    article = Article(url) 
+    article = Article(url)
     article.download()
-    # download the article with libary newspaper Article functionality
-    article.parse() # look through article to get necessary sections
-    title = article.title 
-    text = article.text 
+    article.parse()
+    title = article.title
+    text = article.text
     # downloading the article
     # and getting the title and text
     # from it
     return title, text
 
 def make_probability_side_bar(title, text, prob_score):
-    """  This function uses the title and text returned by
-             the get_article_info() function along with the probability score
-             returned by the news_classifier() function to create a sidebar on
-             the left of the screen in the streamlit app showing the article's
-             probability of being real or not according to the model
-             along with a bar chart showing it on the scale 0 to 1
-    Args:
-        title - a string containing the title of an article from the url
-        text - a string containing the text of an article from the url
-        prob_score = a float show probability score given by model
-    """
-        
+
     head = '<h2 style="text-align: center;"font-family:sans-serif; ">Model Probability of Being True</p>'
     st.sidebar.markdown(head, unsafe_allow_html=True)
     # sidebar title
@@ -207,7 +225,6 @@ def make_probability_side_bar(title, text, prob_score):
             x = alt.X('Article', sort= None, axis=alt.Axis(labels=False)), 
             y = alt.Y('Probability of Article Being True',
                       scale=alt.Scale(domain=[0.0,1.0]),
-                      # ensures y bar only goes between 0 and 1
                       sort= None),
             color = alt.condition(
                 alt.datum['Probability of Article Being True'] < 0.5,
@@ -220,48 +237,28 @@ def make_probability_side_bar(title, text, prob_score):
     st.sidebar.write("Probability Score - ", float(prob_score))
 
 def side_bar_header(title, text, prob_score):
-    """  This function uses the title and text returned by
-        the get_article_info() function along with the probability score
-        returned by the news_classifier() function to create a sidebar header on the left
-        of the screen in the streamlit app which prints 'PROBABLY TRUE' if prob_score 0.5
-        or greater, 'PROBABLY FALSE' if less then 0.5 and 'NO DATA'
-        if the title or text are blank
-    Args:
-        title - a string containing the title of an article from the url
-        text - a string containing the text of an article from the url
-        prob_score = a float show probability score given by model
-    """
     if title == '' or text == '':
         new_title = '<p style="font-family:sans-serif; text-align: center; color:Blue; font-size: 42px;">NO DATA</p>'
         st.sidebar.markdown(new_title, unsafe_allow_html=True)
         # accounts for when the function cannot read the article
-        # does not make a sidebar here
 
     elif prob_score >= 0.5:
+
         new_title = '<p style="font-family:sans-serif; text-align: center; color:Green; font-size: 42px;">PROBABLY TRUE</p>'
         st.sidebar.markdown(new_title, unsafe_allow_html=True)
         make_probability_side_bar(title, text, prob_score)
-        # true articles - makes a sidebar showing probability 
+        # true articles
 
     else:
         new_title = '<p style="font-family:sans-serif; text-align: center; color:Red; font-size: 42px;">PROBABLY FALSE</p>'
         st.sidebar.markdown(new_title, unsafe_allow_html=True)
         make_probability_side_bar(title, text, prob_score)
-        # false articles - makes a sidebar showing probability 
+        # false articles
     
     # True/False headings for article
 
 def run_app(url):
-    """ This is the main function for the streamlit app. If the url section is not blank
-        it runs the app and prints  the title and text of the articl to the screen
-        and also outputs the pre-trained model's prediction as to whether the article is
-        is real or not along with a probability sidebar showing how probable it is that it
-        is a real article
 
-    Args:
-        url - a string input given by the user that points to a news article
-
-    """
     if url != '':
         # app only starts running if url is not blank
         # prevents errors at start 
